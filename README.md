@@ -14,7 +14,7 @@
 
 ---
 ## Tasks
-### [Task 1: Tool Installation](Task1/)
+### [Task 1](task1/)
 **Description:** Refer to C-based and RISC-V-based lab videos to:
 - Compile C code using `gcc`.
 - Compile and count the number of instructions used in o1 and ofast using the RISC-V compiler.

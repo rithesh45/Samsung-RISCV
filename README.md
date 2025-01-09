@@ -15,6 +15,6 @@
 ---
 ## Tasks
 ### [Task 1](task1/)
-**Description:** Refer to C-based and RISC-V-based lab videos to:
+**Description:** Refered to C-based and RISC-V-based lab videos to:
 - Compile C code using `gcc`.
-- Compile and count the number of instructions used in o1 and ofast using the RISC-V compiler.
+- Compile the C code and count the number of instructions using the -o1 and -ofast commands used in the RISC-V compiler.

@@ -21,3 +21,4 @@
 
 ### [Task 2](task2/)
 **Description:** Performing SPIKE simulation and debugging the C codes sumton and seq with debuggging mode using Spike.
+seq C code displays sequence of multiples of 3 while sumton displays sum of 1 to 100. 

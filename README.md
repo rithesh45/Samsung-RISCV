@@ -18,3 +18,6 @@
 **Description:** Refered to C-based and RISC-V-based lab videos to:
 - Compile C code using `gcc`.
 - Compile the C code and count the number of instructions using the -o1 and -ofast commands used in the RISC-V compiler.
+
+### [Task 2](task2/)
+**Description:** Performing SPIKE simulation and debugging the C codes sumton and seq with debuggging mode using Spike.

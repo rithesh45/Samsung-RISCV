@@ -22,3 +22,7 @@
 ### [Task 2](task2/)
 **Description:** Performing SPIKE simulation and debugging the C codes sumton and seq with debuggging mode using Spike.
 seq C code displays sequence of multiples of 3 while sumton displays sum of 1 to 100. 
+
+### [Task 3](task3/)
+**Description:** Reviewing Risc-V software documentation for Instruction types.
+Determining 32-bit Instruction code for 15 instructions in their respective type formats.

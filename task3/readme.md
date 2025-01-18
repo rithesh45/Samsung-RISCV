@@ -296,6 +296,7 @@ This effectively copies the value in register `a4` to register `a5`.
 - `rs1`: `01110` (a5 = x15)
 - `rs2`: `01101` (a4 = x14)
 - `imm`: The offset is calculated as the difference between the target address (`101b4`) and the current PC.
+- 
 **32-bit Binary Format**:  
 `0 000011 0100 0 0 01101 01110 101 000000 1100011`
 

@@ -24,10 +24,23 @@ RISC-V instructions are categorized as:
 - **rs1**: The first source register.
 - **rs2**: The second source register.
 - **funct7**: Further helps specify the operation.
-Similar to all the other types
+- Similarly all other types have these fields
+---
+
 ### I type 
 ![Alt text](Snapshots/i.png)
+---
 ### S Type
-![Alt text](Snapshots/s.png
-### B type 
+![Alt text](Snapshots/s.png)
+---
+### B Type 
 ![Alt text](Snapshots/r.png)
+---
+### U Type
+![Alt text](Snapshots/u.png)
+---
+### J Type 
+![Alt text](Snapshots/j.png)
+---
+
+### **Machine Code for each instruction**

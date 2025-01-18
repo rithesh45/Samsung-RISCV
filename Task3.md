@@ -15,4 +15,6 @@ RISC-V instructions are categorized as:
 #### Opcode and Function Fields
 - **Opcode**: Determines the type of instruction.
 - **func3 and func7**: Specify operations within an instruction type.
+![Diagram of a circuit](assets/circuit_diagram.png "Circuit Diagram")
+
 

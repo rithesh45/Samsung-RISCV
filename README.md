@@ -26,3 +26,6 @@ seq C code displays sequence of multiples of 3 while sumton displays sum of 1 to
 ### [Task 3](task3/)
 **Description:** Reviewing Risc-V software documentation for Instruction types.
 Determining 32-bit Instruction code for 15 instructions in their respective type formats.
+
+### [Task 4](task4/)
+**Description:** Getting the verilog netlist and testbench and loaded them on the iverilog, gtkwave simulator. Simulated the waveform and and checked the functional correctness of the code. 

@@ -20,20 +20,46 @@ This project involves the implementation of a calculator that performs Addition,
 
 
 ---
-## Logical Diagram and Expressions
+## Logical Expressions and Truth Table
 Addition:
-Sum (S) = A XOR B XOR Cin
-Carry (C) = (A AND B) OR (B AND Cin) OR (Cin AND A)
+
+| **Input A** | **Input B** | **Sum (Result LED)** | **Carry (LED)** |
+|-------------|-------------|----------------------|-----------------|
+| 0           | 0           | 0                    | 0               |
+| 0           | 1           | 1                    | 0               |
+| 1           | 0           | 1                    | 0               |
+| 1           | 1           | 0                    | 1               |
+
 
 Subtraction:
-Difference (D) = A XOR B XOR Borrow-in
-Borrow-out = NOT(A) AND B OR Borrow-in AND NOT(A XOR B)
+
+| **Input A** | **Input B** | **Difference (Result LED)** | **Borrow (LED)** |
+|-------------|-------------|----------------------------|------------------|
+| 0           | 0           | 0                          | 0                |
+| 0           | 1           | 1                          | 1                |
+| 1           | 0           | 1                          | 0                |
+| 1           | 1           | 0                          | 0                |
 
 OR: Result = A OR B
+| **Input A** | **Input B** | **OR Result (LED)** |
+|-------------|-------------|---------------------|
+| 0           | 0           | 0                   |
+| 0           | 1           | 1                   |
+| 1           | 0           | 1                   |
+| 1           | 1           | 1                   |
+
 
 AND: Result = A AND B
+| **Input A** | **Input B** | **AND Result (LED)** |
+|-------------|-------------|----------------------|
+| 0           | 0           | 0                    |
+| 0           | 1           | 0                    |
+| 1           | 0           | 0                    |
+| 1           | 1           | 1                    |
+
 
 
 ---
 
 
+---

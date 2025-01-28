@@ -13,9 +13,9 @@ This project involves the implementation of a calculator that performs Addition,
 - 5 LEDs:
 3 for the Result (Sum/Difference/OR/AND for bits R2, R1, R0).
 2 for Carry/Borrow (C2, C1).
-- Resistors (330Ω): To protect LEDs.
-- Breadboard: For easy prototyping.
-- Jumper Wires: For circuit connections.
+- Resistors : To protect LEDs.
+- Breadboard
+- Jumper Wires
 - VS Code with PlatformIO: For writing and uploading code.
 
 

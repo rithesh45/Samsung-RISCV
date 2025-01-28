@@ -1,7 +1,7 @@
 # **Three Bit Calculator**
 ---
 ## Overview
-This project involves the implementation of a calculator that performs Addition, Subtraction, OR, and AND operations using the VSDSquadron Mini, a RISC-V-based SoC development kit. This project showcases the practical application of digital logic, GPIO operations, and RISC-V programming. Push-button switches are used to input binary data and select operations, and the results are displayed using LEDs.
+This project involves the implementation of a three bit calculator that performs Addition, Subtraction, OR, and AND operations on using the VSDSquadron Mini, a RISC-V-based SoC development kit. This project showcases the practical application of digital logic, GPIO operations, and RISC-V programming. Push-button switches are used to input binary data and select operations, and the results are displayed using LEDs.
 
 ---
 ## Components Required
@@ -66,20 +66,26 @@ AND: Result = A AND B
 - The GPIO pins are configured according to the Reference Mannual, ensuring the correct flow of signals between the components.
 
 ---
+## Circuit Connections
+![Alt text](Snapshots/Circuitconnections.png)
 
 ## Code 
 
-#include <stdio.h>
-#include <ch32v00x.h>
-int and(int bit1, int bit2) { return bit1 & bit2; }
-int or(int bit1, int bit2) { return bit1 | bit2; }
-int xor(int bit1, int bit2) { return bit1 ^ bit2; }
-int not(int bit) { return ~bit & 1; }
-void GPIO_Config(void) {
+    #include <stdio.h>
+    #include <ch32v00x.h>
+    int and(int bit1, int bit2) { return bit1 & bit2; }
+    int or(int bit1, int bit2) { return bit1 | bit2; }
+    int xor(int bit1, int bit2) { return bit1 ^ bit2; }
+    int not(int bit) { return ~bit & 1; }
+
+    void GPIO_Config(void) {
+
     GPIO_InitTypeDef GPIO_InitStructure = {0};
     RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOD, ENABLE);
+    
     RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOC, ENABLE);
 
+    
     GPIO_InitStructure.GPIO_Pin = GPIO_Pin_1 | GPIO_Pin_2 | GPIO_Pin_3 | GPIO_Pin_4 | GPIO_Pin_5 | GPIO_Pin_6 | GPIO_Pin_7;
     GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IPU;
     GPIO_Init(GPIOD, &GPIO_InitStructure);
@@ -88,19 +94,19 @@ void GPIO_Config(void) {
     GPIO_InitStructure.GPIO_Mode = GPIO_Mode_Out_PP;
     GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
     GPIO_Init(GPIOC, &GPIO_InitStructure);
-}
+    }
 
-void FullAdder(uint8_t A, uint8_t B, uint8_t Cin, uint8_t *Sum, uint8_t *Carry) {
+    void FullAdder(uint8_t A, uint8_t B, uint8_t Cin, uint8_t *Sum, uint8_t *Carry) {
     *Sum = xor(xor(A, B), Cin);
     *Carry = or(and(A, B), and(Cin, xor(A, B)));
-}
+    }
 
-void FullSubtractor(uint8_t A, uint8_t B, uint8_t Bin, uint8_t *Diff, uint8_t *Borrow) {
+    void FullSubtractor(uint8_t A, uint8_t B, uint8_t Bin, uint8_t *Diff, uint8_t *Borrow) {
     *Diff = xor(xor(A, B), Bin);
     *Borrow = or(and(not(A), B), and(Bin, not(xor(A, B))));
-}
+    }
 
-int main() {
+    int main() {
     uint8_t A, B, Cin, Bin, Op, Result[3], Carry[3], Borrow[3];
     GPIO_Config();
 
@@ -146,5 +152,5 @@ int main() {
             GPIO_WriteBit(GPIOC, GPIO_Pin_5, SET);
         }
     }
-}
+    }
 

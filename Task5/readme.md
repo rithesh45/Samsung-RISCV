@@ -60,6 +60,9 @@ AND: Result = A AND B
 
 
 ---
-
+## Hardware Connections
+- Input : 6 inputs of single bit for A and B and 1 for Operation selection are connected to the GPIO pins if VSDSquadron Mini via push buttons mounted on the breadboard.
+- Output : 5 LEDs are connected to display the result of Calculator
+- The GPIO pins are configured according to the Reference Mannual, ensuring the correct flow of signals between the components.
 
 ---

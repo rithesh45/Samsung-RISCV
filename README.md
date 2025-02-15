@@ -29,3 +29,6 @@ Determining 32-bit Instruction code for 15 instructions in their respective type
 
 ### [Task 4](task4/)
 **Description:** Getting the verilog netlist and testbench and loaded them on the iverilog, gtkwave simulator. Simulated the waveform and and checked the functional correctness of the code. 
+
+### [Task 5](Task5/)
+**Description:** : Overview about project titled "Implementation of Full Subtractor" using VSDSquadron Mini-board. 

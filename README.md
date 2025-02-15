@@ -32,3 +32,6 @@ Determining 32-bit Instruction code for 15 instructions in their respective type
 
 ### [Task 5](Task5/)
 **Description:** : Overview about project titled "Implementation of Full Subtractor" using VSDSquadron Mini-board. 
+
+### [Task 6](Task6/)
+**Description:** : Final working code with Working videos. Also circuit image is present. 

@@ -1,156 +1,147 @@
-# **Three Bit Calculator**
----
+# Full Subtractor using VSDSquadron Mini
+
 ## Overview
-This project involves the implementation of a three bit calculator that performs Addition, Subtraction, OR, and AND operations on using the VSDSquadron Mini, a RISC-V-based SoC development kit. This project showcases the practical application of digital logic, GPIO operations, and RISC-V programming. Push-button switches are used to input binary data and select operations, and the results are displayed using LEDs.
+This project implements a **Full Subtractor combinational circuit** using the **VSDSquadron Mini**, a RISC-V-based SoC development kit. The Full Subtractor performs binary subtraction by considering two input bits and a borrow-in, producing a difference and borrow-out.
 
----
+This project demonstrates the practical application of **digital logic design** with **RISC-V architecture**, handling binary data through GPIO pins. The full subtractor is simulated using **PlatformIO IDE**, and results are displayed using **LED indicators**.
+
 ## Components Required
-- VSDSquadron Mini Board: RISC-V-based development kit.
-- Push Buttons (7):
-3 for binary inputs of A (A2, A1, A0).
-3 for binary inputs of B (B2, B1, B0).
-1 for operation selection.
-- 5 LEDs:
-3 for the Result (Sum/Difference/OR/AND for bits R2, R1, R0).
-2 for Carry/Borrow (C2, C1).
-- Resistors : To protect LEDs.
-- Breadboard
-- Jumper Wires
-- VS Code with PlatformIO: For writing and uploading code.
+- **VSDSquadron Mini Board**  
+- **Push Buttons (3x)**  
+- **LEDs (2x: Red & Blue)**  
+- **Breadboard**  
+- **Jumper Wires**  
+- **VS Code & PlatformIO**  
 
+## Logical Diagram and Expressions
 
----
-## Logical Expressions and Truth Table
-Addition:
+### Difference (D):
+```
+D = (A XOR B) XOR Bin
+  = Bin XOR (A XOR B)
+```
 
-| **Input A** | **Input B** | **Sum (Result LED)** | **Carry (LED)** |
-|-------------|-------------|----------------------|-----------------|
-| 0           | 0           | 0                    | 0               |
-| 0           | 1           | 1                    | 0               |
-| 1           | 0           | 1                    | 0               |
-| 1           | 1           | 0                    | 1               |
+### Borrow Out (Bout):
+```
+Bout = A'Bin + A'B + BBin
+```
 
-
-Subtraction:
-
-| **Input A** | **Input B** | **Difference (Result LED)** | **Borrow (LED)** |
-|-------------|-------------|----------------------------|------------------|
-| 0           | 0           | 0                          | 0                |
-| 0           | 1           | 1                          | 1                |
-| 1           | 0           | 1                          | 0                |
-| 1           | 1           | 0                          | 0                |
-
-OR: Result = A OR B
-| **Input A** | **Input B** | **OR Result (LED)** |
-|-------------|-------------|---------------------|
-| 0           | 0           | 0                   |
-| 0           | 1           | 1                   |
-| 1           | 0           | 1                   |
-| 1           | 1           | 1                   |
-
-
-AND: Result = A AND B
-| **Input A** | **Input B** | **AND Result (LED)** |
-|-------------|-------------|----------------------|
-| 0           | 0           | 0                    |
-| 0           | 1           | 0                    |
-| 1           | 0           | 0                    |
-| 1           | 1           | 1                    |
-
-
-
----
 ## Hardware Connections
-- Input : 6 inputs of single bit for A and B and 1 for Operation selection are connected to the GPIO pins if VSDSquadron Mini via push buttons mounted on the breadboard.
-- Output : 5 LEDs are connected to display the result of Calculator
-- The GPIO pins are configured according to the Reference Mannual, ensuring the correct flow of signals between the components.
+
+| VSDSquadron Mini Pin | Hardware Connection |
+|----------------------|---------------------|
+| **GND** | Common ground for LEDs & switches |
+| **PD1** | Switch 1 cathode (**A**) |
+| **PD2** | Switch 2 cathode (**B**) |
+| **PD3** | Switch 3 cathode (**Bin**) |
+| **PC4** | **Red LED** (Indicates Borrow) |
+| **PC5** | **Blue LED** (Indicates Difference) |
+
+## Truth Table
+
+| A | B | Bin | Difference (D) (Blue LED) | Borrow Out (Bout) (Red LED) |
+|---|---|---|---|---|
+| 0 | 0 | 0 | 0 | 0 |
+| 0 | 0 | 1 | 1 | 1 |
+| 0 | 1 | 0 | 1 | 1 |
+| 0 | 1 | 1 | 0 | 1 |
+| 1 | 0 | 0 | 1 | 0 |
+| 1 | 0 | 1 | 0 | 0 |
+| 1 | 1 | 0 | 0 | 0 |
+| 1 | 1 | 1 | 1 | 1 |
 
 ---
 ## Circuit Connections
-![Alt text](Snapshots/Circuitconnections.png)
+![Alt text]()
 
 ## Code 
 
     #include <stdio.h>
+    #include <debug.h>
     #include <ch32v00x.h>
-    int and(int bit1, int bit2) { return bit1 & bit2; }
-    int or(int bit1, int bit2) { return bit1 | bit2; }
-    int xor(int bit1, int bit2) { return bit1 ^ bit2; }
-    int not(int bit) { return ~bit & 1; }
 
-    void GPIO_Config(void) {
+    // Defining the Logic Gate Functions
+    int and(int bit1, int bit2)
+    {
+     int out = bit1 & bit2;
+     return out;
+    }
+    int or(int bit1, int bit2)
+    {
+      int out = bit1 | bit2;
+      return out;
+    }
+    int xor(int bit1, int bit2)
+    {
+      int out = bit1 ^ bit2;
+      return out;
+    }
+    int not(int bit)
+    {
+      int out = ~bit & 1; // Ensuring only the least significant bit is considered
+      return out;
+    }
 
-    GPIO_InitTypeDef GPIO_InitStructure = {0};
-    RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOD, ENABLE);
+    // Configuring GPIO Pins
+    void GPIO_Config(void)
+    {
+    GPIO_InitTypeDef GPIO_InitStructure = {0}; // structure variable used for GPIO configuration
+    RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOD, ENABLE); // to enable the clock for port D
+    RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOC, ENABLE); // to enable the clock for port C
     
-    RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOC, ENABLE);
-
-    
-    GPIO_InitStructure.GPIO_Pin = GPIO_Pin_1 | GPIO_Pin_2 | GPIO_Pin_3 | GPIO_Pin_4 | GPIO_Pin_5 | GPIO_Pin_6 | GPIO_Pin_7;
-    GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IPU;
+    // Input Pins Configuration
+    GPIO_InitStructure.GPIO_Pin = GPIO_Pin_1 | GPIO_Pin_2 | GPIO_Pin_3;
+    GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IPU; // Defined as Input Type with pull-up
     GPIO_Init(GPIOD, &GPIO_InitStructure);
 
-    GPIO_InitStructure.GPIO_Pin = GPIO_Pin_1 | GPIO_Pin_2 | GPIO_Pin_3 | GPIO_Pin_4 | GPIO_Pin_5;
-    GPIO_InitStructure.GPIO_Mode = GPIO_Mode_Out_PP;
-    GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
+    // Output Pins Configuration
+    GPIO_InitStructure.GPIO_Pin = GPIO_Pin_4 | GPIO_Pin_5;
+    GPIO_InitStructure.GPIO_Mode = GPIO_Mode_Out_PP; // Defined Output Type
+    GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz; // Defined Speed
     GPIO_Init(GPIOC, &GPIO_InitStructure);
     }
 
-    void FullAdder(uint8_t A, uint8_t B, uint8_t Cin, uint8_t *Sum, uint8_t *Carry) {
-    *Sum = xor(xor(A, B), Cin);
-    *Carry = or(and(A, B), and(Cin, xor(A, B)));
-    }
+    // The MAIN function responsible for the execution of the program
+    int main()
+    {
+       uint8_t A, B, Bin, Diff, Bout; // Declared the required variables
+       uint8_t p, q, r; 
+       NVIC_PriorityGroupConfig(NVIC_PriorityGroup_1);
+       SystemCoreClockUpdate();
+       Delay_Init();
+       GPIO_Config();
 
-    void FullSubtractor(uint8_t A, uint8_t B, uint8_t Bin, uint8_t *Diff, uint8_t *Borrow) {
-    *Diff = xor(xor(A, B), Bin);
-    *Borrow = or(and(not(A), B), and(Bin, not(xor(A, B))));
-    }
+    while(1)
+    {
+        A = GPIO_ReadInputDataBit(GPIOD, GPIO_Pin_1);
+        B = GPIO_ReadInputDataBit(GPIOD, GPIO_Pin_2);
+        Bin = GPIO_ReadInputDataBit(GPIOD, GPIO_Pin_3);
+        
+        // Full Subtractor Logic
+        Diff = xor(xor(A, B), Bin); // Difference = A ⊕ B ⊕ Bin
+        p = and(not(A), B); // p = A' B
+        q = and(B, Bin); // q = B Bin
+        r = and(not(A), Bin); // r = A' Bin
+        Bout = or(or(p, q), r); // Borrow out = A' B + B Bin + A' Bin
 
-    int main() {
-    uint8_t A, B, Cin, Bin, Op, Result[3], Carry[3], Borrow[3];
-    GPIO_Config();
-
-    while (1) {
-        A = GPIO_ReadInputDataBit(GPIOD, GPIO_Pin_1) |
-            (GPIO_ReadInputDataBit(GPIOD, GPIO_Pin_2) << 1) |
-            (GPIO_ReadInputDataBit(GPIOD, GPIO_Pin_3) << 2);
-        B = GPIO_ReadInputDataBit(GPIOD, GPIO_Pin_4) |
-            (GPIO_ReadInputDataBit(GPIOD, GPIO_Pin_5) << 1) |
-            (GPIO_ReadInputDataBit(GPIOD, GPIO_Pin_6) << 2);
-        Op = GPIO_ReadInputDataBit(GPIOD, GPIO_Pin_7);
-
-        if (Op == 0) {
-            FullAdder(A & 1, B & 1, 0, &Result[0], &Carry[0]);
-            FullAdder((A >> 1) & 1, (B >> 1) & 1, Carry[0], &Result[1], &Carry[1]);
-            FullAdder((A >> 2) & 1, (B >> 2) & 1, Carry[1], &Result[2], &Carry[2]);
-        } else if (Op == 1) {
-            FullSubtractor(A & 1, B & 1, 0, &Result[0], &Borrow[0]);
-            FullSubtractor((A >> 1) & 1, (B >> 1) & 1, Borrow[0], &Result[1], &Borrow[1]);
-            FullSubtractor((A >> 2) & 1, (B >> 2) & 1, Borrow[1], &Result[2], &Borrow[2]);
-        } else if (Op == 2) {
-            Result[0] = and(A & 1, B & 1);
-            Result[1] = and((A >> 1) & 1, (B >> 1) & 1);
-            Result[2] = and((A >> 2) & 1, (B >> 2) & 1);
-        } else if (Op == 3) {
-            Result[0] = or(A & 1, B & 1);
-            Result[1] = or((A >> 1) & 1, (B >> 1) & 1);
-            Result[2] = or((A >> 2) & 1, (B >> 2) & 1);
+        // Write the Difference output
+        if(Diff == 1)
+        {
+            GPIO_WriteBit(GPIOC, GPIO_Pin_4, RESET); // LED on for Difference = 1
+        }
+        else
+        {
+            GPIO_WriteBit(GPIOC, GPIO_Pin_4, SET); // LED off for Difference = 0
         }
 
-        GPIO_WriteBit(GPIOC, GPIO_Pin_1, Result[0] ? RESET : SET);
-        GPIO_WriteBit(GPIOC, GPIO_Pin_2, Result[1] ? RESET : SET);
-        GPIO_WriteBit(GPIOC, GPIO_Pin_3, Result[2] ? RESET : SET);
-
-        if (Op == 0) {
-            GPIO_WriteBit(GPIOC, GPIO_Pin_4, Carry[1] ? RESET : SET);
-            GPIO_WriteBit(GPIOC, GPIO_Pin_5, Carry[2] ? RESET : SET);
-        } else if (Op == 1) {
-            GPIO_WriteBit(GPIOC, GPIO_Pin_4, Borrow[1] ? RESET : SET);
-            GPIO_WriteBit(GPIOC, GPIO_Pin_5, Borrow[2] ? RESET : SET);
-        } else {
-            GPIO_WriteBit(GPIOC, GPIO_Pin_4, SET);
-            GPIO_WriteBit(GPIOC, GPIO_Pin_5, SET);
+        // Write the Borrow output
+        if(Bout == 1)
+        {
+            GPIO_WriteBit(GPIOC, GPIO_Pin_5, RESET); // LED on for Borrow out = 1
+        }
+        else
+        {
+            GPIO_WriteBit(GPIOC, GPIO_Pin_5, SET); // LED off for Borrow out = 0
         }
     }
     }
-

@@ -74,3 +74,8 @@
 
 </details>
 
+
+<img src="fsimage.jpg" alt="Full Subtractor Circuit Image" width="400">
+
+[Working Video 1](https://example.com/video.mp4)
+

@@ -52,7 +52,7 @@ Bout = A'Bin + A'B + BBin
 
 ---
 ## Circuit Connections
-![Alt text]()
+![Alt text](Snapshots/fsdiagram.png)
 
 ## Code 
 
